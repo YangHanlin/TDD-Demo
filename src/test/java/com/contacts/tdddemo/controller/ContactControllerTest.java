@@ -71,14 +71,6 @@ class ContactControllerTest {
         doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
                 .when(contactService).listContacts(PhonebookControllerTest.NONEXISTENT_ID);
 
-        // Mocks for deleteContact()
-        doNothing()
-                .when(contactService).deleteContact(PhonebookControllerTest.EXISTENT_ID, EXISTENT_ID);
-        doThrow(new NotFoundException("Contact with ID " + NONEXISTENT_ID + " is not found"))
-                .when(contactService).deleteContact(PhonebookControllerTest.EXISTENT_ID, NONEXISTENT_ID);
-        doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
-                .when(contactService).deleteContact(eq(PhonebookControllerTest.NONEXISTENT_ID), any());
-
         // Mocks for createContact()
         doReturn(NONEXISTENT_ID)
                 .when(contactService).createContact(eq(PhonebookControllerTest.EXISTENT_ID), any());
@@ -92,6 +84,14 @@ class ContactControllerTest {
                 .when(contactService).updateContact(eq(PhonebookControllerTest.EXISTENT_ID), eq(NONEXISTENT_ID), any());
         doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
                 .when(contactService).updateContact(eq(PhonebookControllerTest.NONEXISTENT_ID), any(), any());
+
+        // Mocks for deleteContact()
+        doNothing()
+                .when(contactService).deleteContact(PhonebookControllerTest.EXISTENT_ID, EXISTENT_ID);
+        doThrow(new NotFoundException("Contact with ID " + NONEXISTENT_ID + " is not found"))
+                .when(contactService).deleteContact(PhonebookControllerTest.EXISTENT_ID, NONEXISTENT_ID);
+        doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
+                .when(contactService).deleteContact(eq(PhonebookControllerTest.NONEXISTENT_ID), any());
     }
 
     @Test
