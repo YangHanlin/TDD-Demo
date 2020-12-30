@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Login from '@/views/Login';
-import Error from '@/views/Error';
-import Home from '@/views/Home';
+import Login from '@/views/Login.vue';
+import Error from '@/views/Error.vue';
+import Home from '@/views/Home.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +20,7 @@ const routes = [
   {
     path: '/*',
     name: 'Error',
+    component: Error,
   },
 ];
 
