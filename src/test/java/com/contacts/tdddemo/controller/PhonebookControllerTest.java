@@ -50,12 +50,14 @@ class PhonebookControllerTest {
         mockMvc.perform(post("/phonebooks"))
                .andExpect(status().isOk())
                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
+        verify(phonebookService).createPhonebook();
     }
 
     @Test
     public void deleteValidPhonebook() throws Exception {
         mockMvc.perform(delete("/phonebook/" + VALID_ID))
                .andExpect(status().isNoContent());
+        verify(phonebookService).deletePhonebook(VALID_ID);
     }
 
     @Test
@@ -64,5 +66,6 @@ class PhonebookControllerTest {
         mockMvc.perform(delete("/phonebook/" + INVALID_ID))
                .andExpect(status().isNotFound())
                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
+        verify(phonebookService).deletePhonebook(INVALID_ID);
     }
 }
