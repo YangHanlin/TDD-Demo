@@ -9,9 +9,9 @@ public interface ContactService {
 
     List<ContactItem> listContacts(String pid);
 
-    String createContact(Contact contact);
+    String createContact(String pid, Contact contact);
 
-    void updateContact(String id, Contact contact);
+    void updateContact(String pid, String cid, Contact contact);
 
-    void deleteContact(String id);
+    void deleteContact(String pid, String cid);
 }

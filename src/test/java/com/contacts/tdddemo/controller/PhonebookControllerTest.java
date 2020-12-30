@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.Mockito.*;
 
 import com.contacts.tdddemo.exception.NotFoundException;
+import com.contacts.tdddemo.service.ContactService;
 import com.contacts.tdddemo.service.PhonebookService;
 import com.contacts.tdddemo.vo.ErrorResult;
 import com.contacts.tdddemo.vo.PhonebookIdResult;
@@ -30,23 +31,26 @@ class PhonebookControllerTest {
     @MockBean
     private PhonebookService phonebookService;
 
-    private static final String VALID_ID = "00000000-0000-0000-0000-000000000001";
+    @MockBean
+    private ContactService contactService;
 
-    private static final String INVALID_ID = "00000000-0000-0000-0000-000000000000";
+    public static final String EXISTENT_ID = "00000000-0000-0000-0000-000000000001";
+
+    public static final String NONEXISTENT_ID = "00000000-0000-0000-0000-000000000000";
 
     @BeforeEach
     public void setUpPhonebookService() {
-        doReturn(VALID_ID)
+        doReturn(NONEXISTENT_ID)
                 .when(phonebookService).createPhonebook();
         doNothing()
-                .when(phonebookService).deletePhonebook(INVALID_ID);
-        doThrow(new NotFoundException("Phonebook with ID " + INVALID_ID + " is not found"))
-                .when(phonebookService).deletePhonebook(INVALID_ID);
+                .when(phonebookService).deletePhonebook(NONEXISTENT_ID);
+        doThrow(new NotFoundException("Phonebook with ID " + NONEXISTENT_ID + " is not found"))
+                .when(phonebookService).deletePhonebook(NONEXISTENT_ID);
     }
 
     @Test
     public void createPhonebook() throws Exception {
-        PhonebookIdResult expectedResult = new PhonebookIdResult(VALID_ID);
+        PhonebookIdResult expectedResult = new PhonebookIdResult(NONEXISTENT_ID);
         mockMvc.perform(post("/phonebooks"))
                .andExpect(status().isOk())
                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
@@ -55,17 +59,17 @@ class PhonebookControllerTest {
 
     @Test
     public void deleteValidPhonebook() throws Exception {
-        mockMvc.perform(delete("/phonebook/" + VALID_ID))
+        mockMvc.perform(delete("/phonebook/" + EXISTENT_ID))
                .andExpect(status().isNoContent());
-        verify(phonebookService).deletePhonebook(VALID_ID);
+        verify(phonebookService).deletePhonebook(EXISTENT_ID);
     }
 
     @Test
     public void deleteInvalidPhonebook() throws Exception {
-        ErrorResult expectedResult = new ErrorResult("Phonebook with ID " + INVALID_ID + " is not found");
-        mockMvc.perform(delete("/phonebook/" + INVALID_ID))
+        ErrorResult expectedResult = new ErrorResult("Phonebook with ID " + NONEXISTENT_ID + " is not found");
+        mockMvc.perform(delete("/phonebook/" + NONEXISTENT_ID))
                .andExpect(status().isNotFound())
                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
-        verify(phonebookService).deletePhonebook(INVALID_ID);
+        verify(phonebookService).deletePhonebook(NONEXISTENT_ID);
     }
 }

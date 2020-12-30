@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PhonebookController {
 
     @Autowired
-    PhonebookService phonebookService;
+    private PhonebookService phonebookService;
 
     @PostMapping("/phonebooks")
     public PhonebookIdResult createPhonebook() {
