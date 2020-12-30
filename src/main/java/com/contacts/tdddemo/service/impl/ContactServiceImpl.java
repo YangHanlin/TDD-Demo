@@ -1,12 +1,19 @@
 package com.contacts.tdddemo.service.impl;
 
 import com.contacts.tdddemo.model.Contact;
+import com.contacts.tdddemo.repository.ContactRepository;
 import com.contacts.tdddemo.service.ContactService;
 import com.contacts.tdddemo.vo.ContactItem;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ContactServiceImpl implements ContactService {
+
+    @Autowired
+    ContactRepository contactRepository;
 
     @Override
     public List<ContactItem> listContacts(String pid) {

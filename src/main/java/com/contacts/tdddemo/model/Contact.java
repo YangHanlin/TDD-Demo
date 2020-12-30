@@ -3,14 +3,17 @@ package com.contacts.tdddemo.model;
 import com.contacts.tdddemo.utils.ValidPhoneNumber;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.redis.core.RedisHash;
 
-import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
 @Builder(toBuilder = true)
+@RedisHash("contact")
 public class Contact {
+
+    private String id;
 
     private String firstName;
 
