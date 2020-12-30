@@ -6,6 +6,7 @@ import com.contacts.tdddemo.service.ContactService;
 import com.contacts.tdddemo.service.PhonebookService;
 import com.contacts.tdddemo.vo.ContactIdResult;
 import com.contacts.tdddemo.vo.ContactItem;
+import com.contacts.tdddemo.vo.ContactList;
 import com.contacts.tdddemo.vo.ErrorResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,9 +97,10 @@ class ContactControllerTest {
 
     @Test
     void listValidPhonebookContacts() throws Exception {
+        ContactList expectedResult = new ContactList(CONTACT_ITEMS);
         mockMvc.perform(get("/phonebook/" + PhonebookControllerTest.EXISTENT_ID + "/contacts"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(CONTACT_ITEMS)));
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
         verify(contactService).listContacts(PhonebookControllerTest.EXISTENT_ID);
     }
 
@@ -152,7 +154,7 @@ class ContactControllerTest {
     @Test
     void updateValidContact() throws Exception {
         mockMvc.perform(
-                put("/phonebook/" + PhonebookControllerTest.EXISTENT_ID + "/contacts/" + EXISTENT_ID)
+                put("/phonebook/" + PhonebookControllerTest.EXISTENT_ID + "/contact/" + EXISTENT_ID)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(VALID_CONTACT))
         )
