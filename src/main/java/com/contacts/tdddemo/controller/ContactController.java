@@ -22,6 +22,11 @@ public class ContactController {
         return new ContactList(contactService.listContacts(pid));
     }
 
+    @GetMapping("/contact/{cid}")
+    public Contact getContactById(@PathVariable String pid, @PathVariable String cid) {
+        return contactService.getContactById(pid, cid);
+    }
+
     @PostMapping("/contacts")
     public ContactIdResult createContact(@PathVariable String pid, @RequestBody @Valid Contact contact, HttpServletResponse response) {
         ContactIdResult result = new ContactIdResult(contactService.createContact(pid, contact));

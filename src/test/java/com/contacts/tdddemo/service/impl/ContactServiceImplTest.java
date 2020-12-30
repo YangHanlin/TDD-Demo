@@ -98,6 +98,27 @@ class ContactServiceImplTest {
     }
 
     @Test
+    void getContactById() {
+        Contact expectedContact = INITIAL_CONTACTS.get(0);
+        Contact contact = contactService.getContactById(EXISTENT_PID, expectedContact.getId());
+        assertNotNull(contact);
+        assertEquals(expectedContact, contact);
+    }
+
+    @Test
+    void getContactByInvalidPid() {
+        Contact expectedContact = INITIAL_CONTACTS.get(0);
+        Exception e = assertThrows(NotFoundException.class, () -> contactService.getContactById(NONEXISTENT_ID, expectedContact.getId()));
+        assertEquals("Phonebook with ID " + NONEXISTENT_ID + " is not found", e.getMessage());
+    }
+
+    @Test
+    void getContactByInvalidCid() {
+        Exception e = assertThrows(NotFoundException.class, () -> contactService.getContactById(EXISTENT_PID, NONEXISTENT_ID));
+        assertEquals("Contact with ID " + NONEXISTENT_ID + " is not found", e.getMessage());
+    }
+
+    @Test
     void createContact() {
         String id = contactService.createContact(EXISTENT_PID, VALID_CONTACT);
         Optional<Contact> contact = contactRepository.findById(id);

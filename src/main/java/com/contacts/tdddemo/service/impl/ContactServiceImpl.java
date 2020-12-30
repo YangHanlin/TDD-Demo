@@ -35,6 +35,21 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    public Contact getContactById(String pid, String cid) {
+        if (!phonebookRepository.existsById(pid)) {
+            throw new NotFoundException("Phonebook with ID " + pid + " is not found");
+        }
+        if (!contactRepository.existsById(cid)) {
+            throw new NotFoundException("Contact with ID " + cid + " is not found");
+        }
+        Phonebook phonebook = phonebookRepository.findById(pid).get();
+        if (!phonebook.getContactIds().contains(cid)) {
+            throw new NotFoundException("Contact with ID " + cid + " is not found");
+        }
+        return contactRepository.findById(pid).get();
+    }
+
+    @Override
     public String createContact(String pid, Contact contact) {
         if (!phonebookRepository.existsById(pid)) {
             throw new NotFoundException("Phonebook with ID " + pid + " is not found");

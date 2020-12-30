@@ -74,6 +74,14 @@ class ContactControllerTest {
         doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
                 .when(contactService).listContacts(PhonebookControllerTest.NONEXISTENT_ID);
 
+        // Mocks for getContactById()
+        doReturn(VALID_CONTACT)
+                .when(contactService).getContactById(PhonebookControllerTest.EXISTENT_ID, EXISTENT_ID);
+        doThrow(new NotFoundException("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found"))
+                .when(contactService).getContactById(eq(PhonebookControllerTest.NONEXISTENT_ID), any());
+        doThrow(new NotFoundException("Contact with ID " + NONEXISTENT_ID + " is not found"))
+                .when(contactService).getContactById(PhonebookControllerTest.EXISTENT_ID, NONEXISTENT_ID);
+
         // Mocks for createContact()
         doReturn(NONEXISTENT_ID)
                 .when(contactService).createContact(eq(PhonebookControllerTest.EXISTENT_ID), any());
@@ -113,6 +121,32 @@ class ContactControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
         verify(contactService).listContacts(PhonebookControllerTest.NONEXISTENT_ID);
+    }
+
+    @Test
+    void getContactById() throws Exception {
+        mockMvc.perform(get("/phonebook/" + PhonebookControllerTest.EXISTENT_ID + "/contact/" + EXISTENT_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(VALID_CONTACT)));
+        verify(contactService).getContactById(PhonebookControllerTest.EXISTENT_ID, EXISTENT_ID);
+    }
+
+    @Test
+    void getContactByInvalidPid() throws Exception {
+        ErrorResult expectedResult = new ErrorResult("Phonebook with ID " + PhonebookControllerTest.NONEXISTENT_ID + " is not found");
+        mockMvc.perform(get("/phonebook/" + PhonebookControllerTest.NONEXISTENT_ID + "/contact/" + EXISTENT_ID))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
+        verify(contactService).getContactById(PhonebookControllerTest.NONEXISTENT_ID, EXISTENT_ID);
+    }
+
+    @Test
+    void getContactByInvalidCid() throws Exception {
+        ErrorResult expectedResult = new ErrorResult("Contact with ID " + NONEXISTENT_ID + " is not found");
+        mockMvc.perform(get("/phonebook/" + PhonebookControllerTest.EXISTENT_ID + "/contact/" + NONEXISTENT_ID))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
+        verify(contactService).getContactById(PhonebookControllerTest.EXISTENT_ID, NONEXISTENT_ID);
     }
 
     @Test
