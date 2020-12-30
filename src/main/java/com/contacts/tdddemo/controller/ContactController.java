@@ -30,7 +30,7 @@ public class ContactController {
     }
 
     @PutMapping("/contact/{cid}")
-    public void updateContact(@PathVariable String pid, @PathVariable String cid, @RequestBody Contact contact, HttpServletResponse response) {
+    public void updateContact(@PathVariable String pid, @PathVariable String cid, @RequestBody @Valid Contact contact, HttpServletResponse response) {
         contactService.updateContact(pid, cid, contact);
         response.setStatus(HttpServletResponse.SC_NO_CONTENT);
     }

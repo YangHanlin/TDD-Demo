@@ -197,7 +197,6 @@ class ContactControllerTest {
                         .content(objectMapper.writeValueAsString(contact))
             )
                     .andExpect(status().isBadRequest());
-            verify(contactService).updateContact(PhonebookControllerTest.EXISTENT_ID, EXISTENT_ID, contact);
         }
     }
 
