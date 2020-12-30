@@ -6,7 +6,8 @@ import static org.mockito.Mockito.*;
 
 import com.contacts.tdddemo.exception.NotFoundException;
 import com.contacts.tdddemo.service.PhonebookService;
-import com.contacts.tdddemo.vo.IdResult;
+import com.contacts.tdddemo.vo.ErrorResult;
+import com.contacts.tdddemo.vo.PhonebookIdResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,7 @@ class PhonebookControllerTest {
 
     @Test
     public void createPhonebook() throws Exception {
-        IdResult expectedResult = new IdResult(VALID_ID);
+        PhonebookIdResult expectedResult = new PhonebookIdResult(VALID_ID);
         mockMvc.perform(post("/phonebooks"))
                .andExpect(status().isOk())
                .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
@@ -59,7 +60,9 @@ class PhonebookControllerTest {
 
     @Test
     public void deleteInvalidPhonebook() throws Exception {
+        ErrorResult expectedResult = new ErrorResult("Phonebook with ID " + INVALID_ID + " is not found");
         mockMvc.perform(delete("/phonebook/" + INVALID_ID))
-               .andExpect(status().isNotFound());
+               .andExpect(status().isNotFound())
+               .andExpect(content().json(objectMapper.writeValueAsString(expectedResult)));
     }
 }
