@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.redis.core.RedisHash;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -15,8 +16,10 @@ public class Contact {
 
     private String id;
 
+    @NotBlank
     private String firstName;
 
+    @NotBlank
     private String lastName;
 
     @NotNull

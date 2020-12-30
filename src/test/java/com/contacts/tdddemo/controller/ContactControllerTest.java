@@ -55,6 +55,8 @@ class ContactControllerTest {
             .build();
 
     public static final List<Contact> INVALID_CONTACTS = Arrays.asList(
+            VALID_CONTACT.toBuilder().firstName(null).lastName(null).build(),
+            VALID_CONTACT.toBuilder().firstName("  ").lastName("  ").build(),
             VALID_CONTACT.toBuilder().phone(null).build(),
             VALID_CONTACT.toBuilder().phone("invalid phone number").build(),
             VALID_CONTACT.toBuilder().email("www.kamijoutouma.com").build()
