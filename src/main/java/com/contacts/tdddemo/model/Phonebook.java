@@ -7,7 +7,5 @@ import java.util.List;
 @Data
 public class Phonebook {
 
-    private String id;
-
     private List<String> contactIds;
 }
