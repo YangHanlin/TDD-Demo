@@ -1,6 +1,7 @@
 package com.contacts.tdddemo.exception;
 
 import com.contacts.tdddemo.vo.ErrorResult;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,8 +27,8 @@ public class GlobalExceptionHandler {
         return new ErrorResult(e.getMessage());
     }
 
-    @ExceptionHandler(BindException.class)
-    public ErrorResult handleValidationException(BindException e, HttpServletResponse response) {
+    @ExceptionHandler({BindException.class, HttpMessageConversionException.class})
+    public ErrorResult handleValidationException(Exception e, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         Map<String, Object> extrasMap = new HashMap<>(1);
         extrasMap.put("diagnosisInformation", e.getMessage());
