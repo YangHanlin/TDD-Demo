@@ -52,7 +52,7 @@ export default {
       getContactsInPhonebook(str).then((response) => {
         localStorage.setItem('logged-phonebook-id', str);
         this.loading = false;
-        this.$router.push(`/phonebook/${str}`)
+        this.$router.push('/phonebook')
       }).catch((err) => {
         this.displayError = true;
         this.loading = false;
@@ -81,7 +81,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('logged-phonebook-id')) {
-      this.$router.push(`/phonebook/${localStorage.getItem('logged-phonebook-id')}`)
+      this.$router.push('/phonebook')
     }
   }
 };

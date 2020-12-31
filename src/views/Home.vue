@@ -1,16 +1,22 @@
 <template>
   <div class="view">
-    <h1>Home page</h1>
+    <contacts-container />
   </div>
 </template>
 
 <script>
+import ContactsContainer from '@/components/ContactsContainer.vue';
+
 export default {
   name: 'Home',
+  components: {
+    ContactsContainer,
+  },
 };
 </script>
 
-<style scoped>
+<style scope
+    ContactsContainerd>
 .view {
   position: absolute;
   top: 50%;
