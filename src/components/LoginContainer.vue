@@ -76,9 +76,14 @@ export default {
         this.login();
       }).catch((err) => {
         // pass
-      })
-    }
+      });
+    },
   },
+  mounted() {
+    if (localStorage.getItem('logged-phonebook-id')) {
+      this.$router.push(`/phonebook/${localStorage.getItem('logged-phonebook-id')}`)
+    }
+  }
 };
 </script>
 
