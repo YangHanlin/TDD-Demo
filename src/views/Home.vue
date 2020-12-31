@@ -15,8 +15,7 @@ export default {
 };
 </script>
 
-<style scope
-    ContactsContainerd>
+<style scoped>
 .view {
   position: absolute;
   top: 50%;
