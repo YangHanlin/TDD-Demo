@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -46,7 +47,8 @@ public class ContactServiceImpl implements ContactService {
         if (!phonebook.getContactIds().contains(cid)) {
             throw new NotFoundException("Contact with ID " + cid + " is not found");
         }
-        return contactRepository.findById(pid).get();
+        Optional<Contact> contactOptional = contactRepository.findById(cid);
+        return contactOptional.get();
     }
 
     @Override
