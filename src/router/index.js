@@ -13,7 +13,7 @@ const routes = [
     component: Login,
   },
   {
-    path: '/:pid',
+    path: '/phonebook/:pid',
     name: 'Home',
     component: Home,
   },

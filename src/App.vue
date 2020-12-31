@@ -9,7 +9,6 @@
 <script>
 // eslint-disable-next-line
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN';
-import LoginContainer from './components/LoginContainer.vue';
 
 export default {
   name: 'app',
@@ -19,7 +18,6 @@ export default {
     };
   },
   components: {
-    LoginContainer,
   },
 };
 </script>
