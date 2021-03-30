@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.*;
 
@@ -31,7 +31,7 @@ class ContactServiceImplTest {
     private PhonebookRepository phonebookRepository;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private ContactServiceImpl contactService;
@@ -75,7 +75,7 @@ class ContactServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection().flushDb();
+        mongoTemplate.getMongoDbFactory().getMongoDatabase().drop();
     }
 
     @Test

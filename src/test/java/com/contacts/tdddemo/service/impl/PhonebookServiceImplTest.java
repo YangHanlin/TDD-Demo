@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -28,7 +28,7 @@ class PhonebookServiceImplTest {
     private PhonebookRepository phonebookRepository;
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private PhonebookService phonebookService;
@@ -46,7 +46,7 @@ class PhonebookServiceImplTest {
 
     @AfterEach
     void tearDown() {
-        Objects.requireNonNull(redisTemplate.getConnectionFactory()).getConnection().flushDb();
+        mongoTemplate.getMongoDbFactory().getMongoDatabase().drop();
     }
 
     @Test
